@@ -31,5 +31,5 @@ def unaothorized_test() -> str:
     """GET /api/v1/unauthorized
     Return:
       - 401 error
-    """ 
+    """
     abort(401)
