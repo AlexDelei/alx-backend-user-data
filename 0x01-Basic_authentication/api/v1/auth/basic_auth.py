@@ -4,6 +4,7 @@ Basic auth
 """
 import base64
 from api.v1.auth.auth import Auth
+from typing import Tuple, Optional
 
 
 class BasicAuth(Auth):
@@ -44,7 +45,7 @@ class BasicAuth(Auth):
     def extract_user_credentials(
             self,
             decoded_base64_authorization_header: str
-            ) -> (str, str):
+            ) -> Tuple[Optional[str], Optional[str]]:
         """Basic - User Credentials
         """
         if decoded_base64_authorization_header is None:
