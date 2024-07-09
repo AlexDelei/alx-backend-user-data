@@ -27,12 +27,12 @@ def execute_before_request():
     """
     if auth is None:
         return
-    req_lst = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
-    req_auth = auth.require_auth(request.path, req_lst)
+    rq_lst = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
+    req_auth = auth.require_auth(request.path, rq_lst)
     if req_auth:
         if not auth.authorization_header(request):
             abort(401)
-        if  not auth.current_user(request):
+        if not auth.current_user(request):
             abort(403)
 
 
