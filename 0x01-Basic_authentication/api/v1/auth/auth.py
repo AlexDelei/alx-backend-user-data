@@ -2,6 +2,7 @@
 """
 Managing Authentication
 """
+import re
 from flask import request
 from typing import List, TypeVar
 
@@ -20,6 +21,13 @@ class Auth:
             return True
         if path in excluded_paths or (path + '/') in excluded_paths:
             return False
+        for paths in excluded_paths:
+            for pattern in paths:
+                if "*" in pattern:
+                    for url in path:
+                        if url == pattern and "*" in pattern:
+                            return False
+
         return True
 
     def authorization_header(self, request=None) -> str:
