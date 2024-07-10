@@ -25,9 +25,13 @@ class Auth:
         # using regex to match paths with asterik sign
         # checking for any match between the provided
         # match and the excluded path
+
+        # matching the ends of the urls i.e end part of the url
+        end_input_url = path.split('/', 3)[-1]
         for paths in excluded_paths:
             if "*" in paths:
-                sim = re.search(paths, path)
+                end_match_url = paths.split('/', 3)[-1].replace("*", "")
+                sim = re.search(f"^{end_match_url}", end_input_url)
                 if sim:
                     return False
 
