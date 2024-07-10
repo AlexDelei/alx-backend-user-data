@@ -21,12 +21,15 @@ class Auth:
             return True
         if path in excluded_paths or (path + '/') in excluded_paths:
             return False
+
+        # using regex to match paths with asterik sign
+        # checking for any match between the provided
+        # match and the excluded path
         for paths in excluded_paths:
-            for pattern in paths:
-                if "*" in pattern:
-                    for url in path:
-                        if url == pattern and "*" in pattern:
-                            return False
+            if "*" in paths:
+                sim = re.search(paths, path)
+                if sim:
+                    return False
 
         return True
 
