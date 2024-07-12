@@ -2,7 +2,8 @@
 """ Module of Users views
 """
 from api.v1.views import app_views
-from flask import abort, jsonify, request
+from api.v1.auth.basic_auth import BasicAuth
+from flask import abort, jsonify, request, g
 from models.user import User
 
 
@@ -27,10 +28,15 @@ def view_one_user(user_id: str = None) -> str:
     """
     if user_id is None:
         abort(404)
-    user = User.get(user_id)
-    if user is None:
+    if user_id == 'me' and g.current_user is None:
         abort(404)
-    return jsonify(user.to_json())
+
+    user = User.get(g.current_user.id)
+    if not user:
+        abort(404)
+
+    if user_id == 'me' and g.current_user is not None:
+        return jsonify(user.to_json())
 
 
 @app_views.route('/users/<user_id>', methods=['DELETE'], strict_slashes=False)
