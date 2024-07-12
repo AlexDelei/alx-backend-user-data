@@ -3,6 +3,7 @@
 Managing Authentication
 """
 import re
+import os
 from flask import request
 from typing import List, TypeVar
 
@@ -51,3 +52,18 @@ class Auth:
         Current User authentication
         """
         return None
+    
+    def session_cookie(self, request=None):
+        """
+        retreiving Cookie values from the request
+
+        Return:
+            The cookie
+        """
+        if request is None:
+            return None
+        
+        cookie_val = os.getenv('SESSION_NAME')
+        if cookie_val:
+            return request.cookies.get(cookie_val)
+        return
