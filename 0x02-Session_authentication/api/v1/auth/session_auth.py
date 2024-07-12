@@ -4,6 +4,7 @@ Creating a new authentication mechanism
 """
 import uuid
 from api.v1.auth.auth import Auth
+from models.user import User
 
 
 class SessionAuth(Auth):
@@ -47,5 +48,23 @@ class SessionAuth(Auth):
             return None
 
         user_id = self.user_id_by_session_id.get(session_id)
+    #    print("The dictionary with creds: ", self.user_id_by_session_id)
         return user_id
 
+    def current_user(self, request=None):
+        """
+        Using Session id to identify a User
+
+        Args:
+            request - GET url
+        Returns:
+            A User retreived from the Database through id
+        """
+        session_id = self.session_cookie(request)
+        user_id = self.user_id_for_session_id(session_id)
+    #    print("Session Id: ", session_id)
+    #    print("User Id: ", user_id
+        user = User.get(user_id)
+        if user:
+            return user
+        return None
