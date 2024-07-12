@@ -5,7 +5,7 @@ Bringing Session authentication together
 import os
 from api.v1.app import auth
 from api.v1.views import app_views
-from flask import request, jsonify
+from flask import request, jsonify, session
 from models.user import User
 
 
@@ -42,7 +42,7 @@ def session_authentication():
     from api.v1.auth.session_auth import SessionAuth
     session_id = SessionAuth.create_session(user_id)
 
-    # cookie = os.getenv("SESSION_NAME")
-    # cookie.set_cookie(user_data.to_json())
+    cookie = os.getenv("SESSION_NAME")
+    session[cookie] = user_data.to_json()
 
     return user_data.to_json()
