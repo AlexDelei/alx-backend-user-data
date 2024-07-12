@@ -33,10 +33,18 @@ def execute_before_request():
     """
     if auth is None:
         return
-    rq_lst = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
+
+    rq_lst = [
+        '/api/v1/status/', '/api/v1/unauthorized/',
+        '/api/v1/forbidden/', '/api/v1/auth_session/login/'
+        ]
+
     req_auth = auth.require_auth(request.path, rq_lst)
+    auth_session_cookie = auth.session_cookie(request)
+    auth_header = auth.authorization_header(request)
+
     if req_auth:
-        if not auth.authorization_header(request):
+        if not auth_header and not auth_session_cookie:
             abort(401)
         if not auth.current_user(request):
             abort(403)
@@ -68,4 +76,4 @@ def forbiddenError(error) -> str:
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
     port = getenv("API_PORT", 5000)
-    app.run(host=host, port=port)
+    app.run(host=host, port=port, debug=True)
