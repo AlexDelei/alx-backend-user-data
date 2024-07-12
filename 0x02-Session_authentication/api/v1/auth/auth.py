@@ -52,7 +52,7 @@ class Auth:
         Current User authentication
         """
         return None
-    
+
     def session_cookie(self, request=None):
         """
         retreiving Cookie values from the request
@@ -62,7 +62,7 @@ class Auth:
         """
         if request is None:
             return None
-        
+
         cookie_val = os.getenv('SESSION_NAME')
         if cookie_val:
             return request.cookies.get(cookie_val)
