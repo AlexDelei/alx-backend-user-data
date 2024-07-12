@@ -3,7 +3,6 @@
 Creating a new authentication mechanism
 """
 import uuid
-import os
 from api.v1.auth.auth import Auth
 
 
@@ -49,19 +48,4 @@ class SessionAuth(Auth):
 
         user_id = self.user_id_by_session_id.get(session_id)
         return user_id
-    
-    def session_cookie(self, request=None):
-        """
-        retreiving Cookie values from the request
 
-        Return:
-            The cookie
-        """
-        if request is None:
-            return None
-        
-        cookie_val = os.getenv('SESSION_NAME')
-        if cookie_val:
-            value = request.get(cookie_val)
-            return value
-        return
