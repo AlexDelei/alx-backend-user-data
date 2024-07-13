@@ -48,7 +48,7 @@ class SessionAuth(Auth):
             return None
 
         user_id = self.user_id_by_session_id.get(session_id)
-    #    print("The dictionary with creds: ", self.user_id_by_session_id)
+
         return user_id
 
     def current_user(self, request=None):
@@ -62,8 +62,7 @@ class SessionAuth(Auth):
         """
         session_id = self.session_cookie(request)
         user_id = self.user_id_for_session_id(session_id)
-    #    print("Session Id: ", session_id)
-    #    print("User Id: ", user_id
+
         user = User.get(user_id)
         if user:
             return user
