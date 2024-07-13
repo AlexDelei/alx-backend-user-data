@@ -48,8 +48,9 @@ class SessionAuth(Auth):
             return None
 
         user_id = self.user_id_by_session_id.get(session_id)
-
-        return user_id
+        if user_id:
+            return user_id
+        return None
 
     def current_user(self, request=None):
         """
@@ -67,3 +68,23 @@ class SessionAuth(Auth):
         if user:
             return user
         return None
+
+    def destroy_session(self, request=None):
+        """
+        Destroying the current user
+
+        Args:
+            request: request url
+        """
+        if request is None:
+            return False
+
+        session_id_cookie = self.session_cookie(request)
+        if session_id_cookie not in request.cookies:
+            return False
+        validate_ssId = self.user_id_for_session_id(session_id_cookie)
+        if validate_ssId is None:
+            return False
+
+        del self.user_id_by_session_id[session_id_cookie]
+        return True
