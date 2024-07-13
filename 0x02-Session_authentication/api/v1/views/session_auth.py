@@ -5,7 +5,7 @@ Bringing Session authentication together
 import os
 from api.v1.app import auth
 from api.v1.views import app_views
-from flask import request, jsonify, session
+from flask import request, jsonify, session, abort
 from models.user import User
 
 
@@ -48,3 +48,20 @@ def session_authentication():
     user_session.set_cookie(cookie, session_id)
 
     return user_session
+
+
+@app_views.route(
+    '/api/v1/auth_session/logout',
+    methods=['DELETE'],
+    strict_slashes=False
+    )
+def logout():
+    """
+    Logouts out a user by deleting user's instance
+    """
+    from api.v1.app import auth
+
+    destroy = auth.destroy_session(request)
+    if destroy:
+        return jsonify({}), 200
+    abort(404)
