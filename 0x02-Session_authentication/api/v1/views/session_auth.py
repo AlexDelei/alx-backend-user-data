@@ -39,7 +39,8 @@ def session_authentication():
     user_id = user_data.id
 
     user_id = user_data.id
-    from api.v1.auth.session_auth import SessionAuth
-    session_id = SessionAuth.create_session(user_id)
+    from api.v1.app import auth
+    session_id = auth.create_session(user_id)
+    user_data.to_json().set_cookie(os.getenv("SESSION_NAME"), user_id)
 
     return user_data.to_json()
