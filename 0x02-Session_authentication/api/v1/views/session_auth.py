@@ -45,6 +45,6 @@ def session_authentication():
     from api.v1.app import auth
     session_id = auth.create_session(user_id)
     user_session = jsonify(user_data.to_json())
-    user_session.set_cookie(cookie, user_id)
+    user_session.set_cookie(cookie, session_id)
 
     return user_session
