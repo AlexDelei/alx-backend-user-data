@@ -125,7 +125,7 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db() -> object:
+def get_db() -> connection:
     """
     MySQL connection object - connection.MYSQLConnection()
 
