@@ -171,7 +171,7 @@ def main():
         formatted_record = "; ".join(
             f"{col}='{val}'" for col, val in zip(columns, record)) + ";"
         log_record = logging.LogRecord(
-            "my_logger",
+            "user_data",
             logging.INFO,
             None,
             None,
