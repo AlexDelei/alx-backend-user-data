@@ -11,42 +11,6 @@ app = Flask(__name__)
 app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
-auth = getenv("AUTH_TYPE", None)
-if auth == 'basic_auth':
-    from api.v1.auth.basic_auth import BasicAuth
-    auth = BasicAuth()
-elif auth == 'session_auth':
-    from api.v1.auth.session_auth import SessionAuth
-    auth = SessionAuth()
-else:
-    from api.v1.auth.auth import Auth
-    auth = Auth()
-
-
-@app.before_request
-def execute_before_request():
-    """Request Validation
-    """
-    if auth is None:
-        return
-
-    rq_lst = [
-        '/api/v1/status/', '/api/v1/unauthorized/',
-        '/api/v1/forbidden/', '/api/v1/auth_session/login/'
-        ]
-
-    req_auth = auth.require_auth(request.path, rq_lst)
-    auth_session_cookie = auth.session_cookie(request)
-    auth_header = auth.authorization_header(request)
-
-    if req_auth:
-        if not auth_header and not auth_session_cookie:
-            abort(401)
-        if not auth.current_user(request):
-            abort(403)
-
-    g.current_user = auth.current_user(request)
-
 
 @app.errorhandler(404)
 def not_found(error) -> str:
