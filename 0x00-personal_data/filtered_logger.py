@@ -5,10 +5,19 @@ import re
 import logging
 
 
-def filter_datum(fields: List[str], redaction: str, message: str, separator: str) -> str:
+def filter_datum(
+        fields: List[str],
+        redaction: str,
+        message: str,
+        separator: str
+        ) -> str:
     """Using regex to replace certain occure"""
     pattern = r'(' + '|'.join([f'{f}=[^{separator}]*' for f in fields]) + r')'
-    return re.sub(pattern, lambda m: m.group().split('=')[0] + '=' + redaction, message)
+    return re.sub(
+        pattern,
+        lambda m: m.group().split('=')[0] + '=' + redaction,
+        message
+        )
 
 
 class RedactingFormatter(logging.Formatter):
