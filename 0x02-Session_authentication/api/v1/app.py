@@ -14,15 +14,19 @@ CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 # Lazy import of authentication classes to avoid circular import issues
 auth = None
 auth_type = getenv("AUTH_TYPE", None)
+# print("Authentication Variable: ", auth_type)
 if auth_type == 'basic_auth':
     from api.v1.auth.basic_auth import BasicAuth
     auth = BasicAuth()
+    # print("Authentication system choosed: ", auth.__class__.__name__)
 elif auth_type == 'session_auth':
     from api.v1.auth.session_auth import SessionAuth
     auth = SessionAuth()
+    # print("Authentication systems choosed: ", auth)
 else:
     from api.v1.auth.auth import Auth
     auth = Auth()
+    # print("Authentication system choosed: ", auth)
 
 
 @app.before_request
@@ -45,7 +49,7 @@ def execute_before_request():
             abort(401)
         if not auth.current_user(request):
             abort(403)
-        g.current_user = auth.current_user(request)
+        request.current_user = auth.current_user(request)
 
 
 @app.errorhandler(404)
