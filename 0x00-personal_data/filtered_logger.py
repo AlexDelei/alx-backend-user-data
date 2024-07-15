@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Regex-ing"""
 from typing import List
+from mysql.connector.connection import MySQLConnection
 from mysql.connector import connection
 from os import getenv
 import re
-import mysql.connector.connection
 import logging
 
 """
@@ -126,7 +126,7 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db() -> mysql.connector.connection:
+def get_db() -> MySQLConnection:
     """
     MySQL connection object - connection.MYSQLConnection()
 
