@@ -143,6 +143,50 @@ def get_db() -> MySQLConnection:
         password=pswd,
         host=host,
         database=db
-        )
-
+    )
     return conn
+
+
+"""
+The function will obtain a database connection using get_db and
+retrieve all rows in the users table and display each row under
+a filtered format
+"""
+
+
+def main():
+    """
+    Read and filter data
+    """
+    db = get_db()
+    cursor = db.cursor()
+
+    cursor.execute("SHOW COLUMNS FROM users;")
+    columns = [column[0] for column in cursor.fetchall()]
+
+    cursor.execute("SELECT * FROM users;")
+    records = cursor.fetchall()
+
+    for record in records:
+        formatted_record = "; ".join(
+            f"{col}='{val}'" for col, val in zip(columns, record)) + ";"
+        log_record = logging.LogRecord(
+            "my_logger",
+            logging.INFO,
+            None,
+            None,
+            formatted_record,
+            None,
+            None
+            )
+        formatter = RedactingFormatter(
+            fields=("name", "email", "phone", "ssn", "password")
+            )
+        print(formatter.format(log_record))
+
+    cursor.close()
+    db.close()
+
+
+if __name__ == '__main__':
+    main()
