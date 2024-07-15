@@ -2,7 +2,7 @@
 """Regex-ing"""
 from typing import List
 from mysql.connector.connection import MySQLConnection
-from mysql.connector import connection
+from mysql.connector import connect
 from os import getenv
 import re
 import logging
@@ -138,12 +138,9 @@ def get_db() -> MySQLConnection:
     host = getenv("PERSONAL_DATA_DB_HOST")
     db = getenv("PERSONAL_DATA_DB_NAME")
 
-    conn = connection.MySQLConnection(
-        user=user,
-        password=pswd,
-        host=host,
-        database=db
-    )
+    conn = connect(
+        user=user, password=pswd, host=host, database=db
+        )
     return conn
 
 
