@@ -17,8 +17,8 @@ cursor.execute("SELECT * FROM users;")
 records = cursor.fetchall()
 
 for record in records:
-    formatted_record = "; ".join(f"{col}='{val}'" for col, val in zip(columns, record))
-    print(formatted_record + ";")
+    formatted_record = "; ".join(f"{col}='{val}'" for col, val in zip(columns, record)) + ";"
+    print(formatted_record)
 
 
 cursor.close()
