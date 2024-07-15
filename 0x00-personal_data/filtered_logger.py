@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Regex-ing"""
 from typing import List
+from mysql.connector import connection
+from os import getenv
 import re
 import logging
 
@@ -121,3 +123,25 @@ def get_logger() -> logging.Logger:
     logger.addHandler(stream_handler)
 
     return logger
+
+
+def get_db() -> object:
+    """
+    MySQL connection object - connection.MYSQLConnection()
+
+    return:
+        the connection object
+    """
+    user = getenv("PERSONAL_DATA_DB_USERNAME")
+    pswd = getenv("PERSONAL_DATA_DB_PASSWORD")
+    host = getenv("PERSONAL_DATA_DB_HOST")
+    db = getenv("PERSONAL_DATA_DB_NAME")
+
+    conn = connection.MySQLConnection(
+        user=user,
+        password=pswd,
+        host=host,
+        database=db
+        )
+
+    return conn
