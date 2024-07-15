@@ -31,7 +31,8 @@ else:
 
 @app.before_request
 def execute_before_request():
-    """Request Validation
+    """
+    Request Validation before making any requests
     """
     if auth is None:
         return
