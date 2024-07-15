@@ -4,6 +4,7 @@ from typing import List
 from mysql.connector import connection
 from os import getenv
 import re
+import mysql.connector.connection
 import logging
 
 """
@@ -125,7 +126,7 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db() -> connection:
+def get_db() -> mysql.connector.connection:
     """
     MySQL connection object - connection.MYSQLConnection()
 
