@@ -6,7 +6,7 @@ from typing import ByteString
 import bcrypt
 
 
-def hash_password(password: str) -> ByteString:
+def hash_password(password: str) -> bytes:
     """
     hashes and salts a password and turns it
     into a byte string
