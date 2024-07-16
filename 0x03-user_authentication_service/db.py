@@ -46,21 +46,3 @@ class DB:
 
         return u_obj
 
-    def find_user_by(self, **kwargs) -> User:
-        """
-        Performs Query and filters down by the
-        arguments provided
-
-        Args:
-            keyword arguments
-        Return:
-            User object found
-        """
-        try:
-            u_data = self._session.query(User).filter_by(**kwargs).first()
-            if u_data is None:
-                raise NoResultFound
-            return u_data
-
-        except ArgumentError:
-            raise InvalidRequestError
