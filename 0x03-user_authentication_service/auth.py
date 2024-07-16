@@ -65,7 +65,7 @@ class Auth:
             return False
 
 
-def _generate_uuid() -> uuid:
+def _generate_uuid() -> uuid.uuid4:
     """
     Generate and return UUID
     """
