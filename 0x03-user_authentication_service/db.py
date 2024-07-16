@@ -45,3 +45,14 @@ class DB:
         self._session.commit()
 
         return u_obj
+    
+    def find_user_by(self, **kwargs) -> User:
+        """
+        Retreives a user from the db
+
+        Args:
+            kwargs - key-value arguments to be used to filter
+        Return:
+            A user object
+        """
+        return
