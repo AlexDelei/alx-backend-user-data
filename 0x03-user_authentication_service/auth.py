@@ -3,6 +3,7 @@
 Authentication systems
 """
 import bcrypt
+import uuid
 from db import DB
 from user import User
 from sqlalchemy.orm.exc import NoResultFound
@@ -62,3 +63,10 @@ class Auth:
             return bcrypt.checkpw(password.encode('utf-8'), hashed_pswd)
         except NoResultFound:
             return False
+
+    @property
+    def _generate_uuid(self) -> uuid:
+        """
+        Generate and return UUID
+        """
+        return str(uuid.uuid4())
