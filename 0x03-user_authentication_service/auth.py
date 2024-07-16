@@ -72,7 +72,7 @@ class Auth:
         Args:
             email - user email
         Returns:
-            user's session id
+            users session id
         """
         try:
             user = self._db.find_user_by(email=email)
