@@ -73,7 +73,6 @@ class DB:
         """
         try:
             user = self.find_user_by(id=user_id)
-            if user:
-                user = kwargs
+            user = kwargs
         except ArgumentError:
             raise ValueError
