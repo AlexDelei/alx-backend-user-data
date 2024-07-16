@@ -45,4 +45,3 @@ class DB:
         self._session.commit()
 
         return u_obj
-
