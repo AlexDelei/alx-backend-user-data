@@ -65,7 +65,6 @@ class Auth:
             return False
 
 
-@property
 def _generate_uuid() -> uuid:
     """
     Generate and return UUID
