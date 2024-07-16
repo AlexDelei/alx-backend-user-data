@@ -1,2 +1,4 @@
 bcrypt
 sqlalchemy
+'SQLAlchemy>=1.3,<1.4'
+flask
