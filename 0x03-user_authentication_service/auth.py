@@ -64,7 +64,6 @@ class Auth:
         except NoResultFound:
             return False
 
-    @property
     def _generate_uuid(self) -> uuid:
         """
         Generate and return UUID
