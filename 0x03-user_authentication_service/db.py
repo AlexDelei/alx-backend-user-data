@@ -61,7 +61,7 @@ class DB:
             raise InvalidRequestError
         return user
 
-    def update_user(self, user_id: int, **kwargs):
+    def update_user(self, user_id: int, **kwargs) -> None:
         """
         Locates the user to update using the user_id arg
 
