@@ -76,3 +76,5 @@ class DB:
             user = kwargs
         except ArgumentError:
             raise ValueError
+        
+        return None
