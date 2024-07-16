@@ -60,3 +60,20 @@ class DB:
         except InvalidRequestError:
             raise InvalidRequestError
         return user
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """
+        Locates the user to update using the user_id arg
+
+        Args:
+            user_id - a user id
+            kwargs - key-value data for updating
+        Returns:
+            A user object
+        """
+        try:
+            user = self.find_user_by(id=user_id)
+            if user:
+                user = kwargs
+        except Exception:
+            raise ValueError
