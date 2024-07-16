@@ -66,7 +66,7 @@ class Auth:
 
 
 @property
-def _generate_uuid(self) -> uuid:
+def _generate_uuid() -> uuid:
     """
     Generate and return UUID
     """
