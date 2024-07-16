@@ -17,6 +17,8 @@ class DB:
         """Initialize a new DB instance
         """
         self._engine = create_engine("sqlite:///a.db", echo=False)
+        # Base.metadata.drop_all(self._engine)
+        Base.metadata.create_all(self._engine)
         self.__session = None
 
     @property
@@ -40,10 +42,3 @@ class DB:
         self._session.commit()
 
         return u_obj
-
-    def reset_schema(self) -> None:
-        """
-        Initialize or reset the database schema
-        """
-        Base.metadata.drop_all(self._engine)
-        Base.metadata.create_all(self._engine)
