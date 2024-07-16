@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from sqlalchemy.orm.exc import NoResultFound
-from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.exc import InvalidRequestError, ArgumentError
 
 from user import Base, User
 
@@ -75,5 +75,5 @@ class DB:
             user = self.find_user_by(id=user_id)
             if user:
                 user = kwargs
-        except Exception:
+        except ArgumentError:
             raise ValueError
