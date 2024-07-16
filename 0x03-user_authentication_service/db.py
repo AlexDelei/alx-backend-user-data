@@ -45,7 +45,7 @@ class DB:
         self._session.commit()
 
         return u_obj
-    
+
     def find_user_by(self, **kwargs) -> User:
         """
         Retreives a user from the db
