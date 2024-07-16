@@ -6,7 +6,6 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import InvalidRequestError
-from typing import Dict
 
 from user import Base, User
 
@@ -62,7 +61,7 @@ class DB:
             raise InvalidRequestError
         return user
 
-    def update_user(self, user_id: int, **kwargs: Dict) -> None:
+    def update_user(self, user_id: int, **kwargs: dict) -> None:
         """
         Locates the user to update using the user_id arg
 
