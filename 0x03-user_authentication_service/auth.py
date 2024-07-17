@@ -75,11 +75,6 @@ class Auth:
         """
         Finds the user using the email, generates
         uuid and stores it in the db
-
-        Args:
-            email - user email
-        Returns:
-            session id
         """
         try:
             user = self._db.find_user_by(email=email)
