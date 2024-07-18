@@ -74,7 +74,7 @@ class Auth:
 
     def create_session(self, email: str) -> str:
         """
-        Finds the user using the email, generates
+        Finds the user generates
         uuid and stores it in the db
         """
         user = None
@@ -89,13 +89,7 @@ class Auth:
         return session_id
 
     def get_user_from_session_id(self, session_id: str) -> Union[User, None]:
-        """
-        Retreives a user using his/her session id
-
-        Args:
-            session_id - user session id
-        Returns:
-            a user if found else None
+        """Retreives a user using his/her session id
         """
         user = None
         if session_id is None:
