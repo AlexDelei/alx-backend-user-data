@@ -10,7 +10,7 @@ app = Flask(__name__)
 AUTH = Auth()
 
 
-@app.route("/", methods=['GET'])
+@app.route("/", methods=['GET'], strict_slashes=False)
 def basic_app():
     """
     Returns a simple payload using jsonify
@@ -18,7 +18,7 @@ def basic_app():
     return jsonify({"message": "Bienvenue"})
 
 
-@app.route("/users", methods=['POST'])
+@app.route("/users", methods=['POST'], strict_slashes=False)
 def users():
     """
     Endpoint for registering a User
@@ -32,7 +32,7 @@ def users():
         return jsonify({"message": "email already registered"}), 400
 
 
-@app.route("/sessions", methods=['POST'])
+@app.route("/sessions", methods=['POST'], strict_slashes=False)
 def login():
     """
     Logs In a User and creates a session for it
