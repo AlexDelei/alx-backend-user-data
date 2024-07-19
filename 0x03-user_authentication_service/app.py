@@ -3,6 +3,7 @@
 Basic Flask App
 """
 from flask import Flask, jsonify, request, abort, redirect
+from sqlalchemy.orm.exc import NoResultFound
 from auth import Auth
 import uuid
 
@@ -96,14 +97,11 @@ def update_password() -> str:
     reset_token = request.form.get("reset_token")
     new_password = request.form.get("new_password")
 
-    user = AUTH._db.find_user_by(email=email)
-    user_reset_token = user.reset_token
-
     try:
-        if user_reset_token != reset_token:
-            raise ValueError
+        AUTH._db.find_user_by(reset_token=reset_token)
         AUTH.update_password(reset_token, new_password)
-    except ValueError:
+        return jsonify({"email": email, "message": "Password updated"})
+    except NoResultFound:
         abort(403)
 
 
