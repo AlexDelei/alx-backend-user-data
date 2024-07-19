@@ -107,3 +107,38 @@ class Auth:
         if user_id is None:
             return None
         self._db.update_user(user_id, session_id=None)
+
+    def get_reset_password_token(self, email: str) -> str:
+        """
+        Generating a reset password token
+
+        Args:
+            email - used to locate the user
+        Returns:
+            the reset token
+        """
+        try:
+            user = self._db.find_user_by(email=email)
+        except NoResultFound:
+            raise ValueError
+        reset_token = _generate_uuid()
+        user.reset_token = reset_token
+        return reset_token
+
+    def update_password(self, reset_token: str, password: str) -> None:
+        """
+        Update password
+
+        Args:
+            reset_token - used to locate the user
+            password - new hashed password
+        """
+        try:
+            user = self._db.find_user_by(reset_token=reset_token)
+            self._db.update_user(
+                user.id,
+                hashed_password=_hash_password(password),
+                reset_token=None
+                )
+        except NoResultFound:
+            raise ValueError
