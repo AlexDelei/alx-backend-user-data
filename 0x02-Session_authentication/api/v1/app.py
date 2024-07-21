@@ -3,22 +3,22 @@
 Route module for the API
 """
 from os import getenv
+from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
 from flask_cors import (CORS, cross_origin)
-from api.v1.views import app_views
+import os
+
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
+auth = None
 
+AUTH_TYPE = os.getenv("AUTH_TYPE")
 
-auth = getenv("AUTH_TYPE", None)
-if auth == 'basic_auth':
+if AUTH_TYPE == 'basic_auth':
     from api.v1.auth.basic_auth import BasicAuth
     auth = BasicAuth()
-elif auth == 'session_auth':
-    from api.v1.auth.session_auth import SessionAuth
-    auth = SessionAuth()
 else:
     from api.v1.auth.auth import Auth
     auth = Auth()
@@ -26,24 +26,17 @@ else:
 
 @app.before_request
 def execute_before_request():
+    """Request Validation
     """
-    Request Validation before making any requests
-    """
-    if auth:
-        paths = [
-            '/api/v1/status/',
-            '/api/v1/unauthorized/',
-            '/api/v1/forbidden/',
-            '/api/v1/auth_session/login/'
-        ]
-        if auth.require_auth(request.path, paths):
-            auth_header = auth.authorization_header(request)
-            user = auth.current_user(request)
-            if auth_header is None or auth.session_cookie is None:
-                abort(401)
-            if user is None:
-                abort(403)
-            request.current_user = user
+    if auth is None:
+        return
+    rq_lst = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
+    req_auth = auth.require_auth(request.path, rq_lst)
+    if req_auth:
+        if not auth.authorization_header(request):
+            abort(401)
+        if not auth.current_user(request):
+            abort(403)
 
 
 @app.errorhandler(404)
@@ -69,5 +62,5 @@ def forbiddenError(error) -> str:
 
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
-    port = getenv("API_PORT", "5000")
-    app.run(host=host, port=port)
+    port = getenv("API_PORT", 5000)
+    app.run(host=host, port=port, debug=True)
