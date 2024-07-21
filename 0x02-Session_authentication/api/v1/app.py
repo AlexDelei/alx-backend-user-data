@@ -33,12 +33,15 @@ def execute_before_request():
     """
     if auth is None:
         return
-    rq_lst = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
+    rq_lst = [
+        '/api/v1/status/', '/api/v1/unauthorized/',
+        '/api/v1/forbidden/', '/api/v1/auth_session/login/'
+        ]
     req_auth = auth.require_auth(request.path, rq_lst)
     if req_auth:
         auth_header = auth.authorization_header(request)
         user = auth.current_user(request)
-        if auth_header is None:
+        if auth_header is None and auth.session_cookie is None:
             abort(401)
         if user is None:
             abort(403)
