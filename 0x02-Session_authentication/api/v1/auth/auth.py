@@ -3,8 +3,12 @@
 Managing Authentication
 """
 import re
+import os
 from flask import request
 from typing import List, TypeVar
+
+
+SESSION_NAME = os.getenv("SESSION_NAME")
 
 
 class Auth:
@@ -46,8 +50,16 @@ class Auth:
 
         return request.headers.get('Authorization', None)
 
-    def current_user(self, request=None) -> TypeVar('User'):
+    def current_user(self, request=None) -> TypeVar('User'):  # type: ignore
         """
         Current User authentication
         """
         return None
+
+    def session_cookie(self, request=None):
+        """
+        Retreiving a cookie from a request
+        """
+        if request is None:
+            return None
+        return request.cookies.get(SESSION_NAME)
