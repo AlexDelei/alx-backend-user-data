@@ -33,10 +33,14 @@ def execute_before_request():
     rq_lst = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
     req_auth = auth.require_auth(request.path, rq_lst)
     if req_auth:
-        if not auth.authorization_header(request):
+        auth_header = auth.authorization_header(request)
+        user = auth.current_user(request)
+        if auth_header is None:
             abort(401)
-        if not auth.current_user(request):
+        if user is None:
             abort(403)
+
+        request.current_user = user
 
 
 @app.errorhandler(404)
